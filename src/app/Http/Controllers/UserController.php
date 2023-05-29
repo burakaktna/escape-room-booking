@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Services\UserService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
@@ -13,6 +14,9 @@ class UserController extends Controller
     {
     }
 
+    /**
+     * @throws Exception
+     */
     public function register(RegisterRequest $request): JsonResponse
     {
         $user = $this->userService->register($request->all());

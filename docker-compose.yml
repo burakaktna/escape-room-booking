@@ -2,14 +2,14 @@ version: '3.7'
 services:
     app:
         build:
-            context: .
+            context: src
             dockerfile: Dockerfile
-        image: userservice
-        container_name: userservice
+        image: escaperoombooking
+        container_name: escaperoombooking
         restart: unless-stopped
         tty: true
         environment:
-            SERVICE_NAME: userservice
+            SERVICE_NAME: escaperoombooking
             SERVICE_TAGS: dev
         working_dir: /var/www
         volumes:
@@ -25,7 +25,7 @@ services:
         ports:
             - "4306:3306"
         environment:
-            MYSQL_DATABASE: userservice
+            MYSQL_DATABASE: escaperoombooking
             MYSQL_ROOT_PASSWORD: password
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql

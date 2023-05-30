@@ -37,6 +37,7 @@ composer test
 
 
 ## API Endpoints
+### All endpoint details: [Insomnia](https://github.com/burakaktna/escape-room-booking-insomnia)
 
 - Register a new user: `POST /register`
 ```json

@@ -7,6 +7,7 @@ use App\Http\Resources\Booking\BookingCollection;
 use App\Http\Resources\Booking\BookingResource;
 use App\Models\Booking;
 use App\Services\BookingService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,6 @@ class BookingController extends Controller
 {
     public function __construct(private readonly BookingService $bookingService)
     {
-        $this->authorizeResource(Booking::class, 'booking');
     }
 
     public function index(): JsonResponse
@@ -23,6 +23,9 @@ class BookingController extends Controller
         return BookingCollection::make($bookings)->response();
     }
 
+    /**
+     * @throws Exception
+     */
     public function store(BookingRequest $request): JsonResponse
     {
         $booking = $this->bookingService->createBooking(Auth::user(), $request->validated());

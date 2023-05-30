@@ -29,9 +29,11 @@ class BookingService
                 ->through([
                     CheckAvailability::class,
                     CheckBirthday::class,
-                ]);
-
-            $booking->save();
+                ])
+                ->then(function ($booking) {
+                    $booking->save();
+                    return $booking;
+                });
 
             DB::commit();
         } catch (Exception $e) {

@@ -3,8 +3,12 @@
 namespace App\Services\BookingSteps;
 
 use App\Models\Booking;
+use App\Services\BookingSteps\AvailabilitySteps\CheckBookingOverlap;
+use App\Services\BookingSteps\AvailabilitySteps\CheckMaximumParticipants;
+use App\Services\BookingSteps\AvailabilitySteps\CheckTimeSlot;
 use Closure;
 use Exception;
+use Illuminate\Pipeline\Pipeline;
 
 class CheckAvailability
 {
@@ -13,23 +17,18 @@ class CheckAvailability
      */
     public function handle(Booking $booking, Closure $next)
     {
-        // TODO repository
-        $overlap = Booking::where('time_slot_id', $booking->time_slot_id)
-            ->where('escape_room_id', $booking->escape_room_id)
-            ->where('id', '!=', $booking->id)
-            ->exists();
+        $pipes = [
+            CheckTimeSlot::class,
+            CheckBookingOverlap::class,
+            CheckMaximumParticipants::class,
+        ];
 
-        if ($overlap) {
-            throw new Exception("This time slot is already booked for this escape room.");
-        }
-
-        $totalParticipants = Booking::where('time_slot_id', $booking->time_slot_id)
-            ->where('escape_room_id', $booking->escape_room_id)
-            ->sum('participant_count');
-
-        if (($totalParticipants + $booking->participant_count) > $booking->escapeRoom->maximum_participants) {
-            throw new Exception("Maximum participants exceeded for this time slot.");
-        }
+        app(Pipeline::class)
+            ->send($booking)
+            ->through($pipes)
+            ->then(function ($booking) {
+                return $booking;
+            });
 
         return $next($booking);
     }

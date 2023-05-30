@@ -6,7 +6,7 @@ This is a RESTful API for an escape room booking system built with Laravel. User
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/[your-github-username]/escape-room-booking.git
+git clone https://github.com/burakaktna/escape-room-booking.git
 ```
 
 2. Change to the project directory:

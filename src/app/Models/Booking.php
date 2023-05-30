@@ -12,7 +12,7 @@ class Booking extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'time_slot_id', 'participant_count'];
+    protected $fillable = ['user_id', 'time_slot_id', 'participant_count', 'escape_room_id'];
 
     public function user(): BelongsTo
     {

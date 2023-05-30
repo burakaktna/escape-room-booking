@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('participant_count');
+            $table->foreignId('escape_room_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('time_slot_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

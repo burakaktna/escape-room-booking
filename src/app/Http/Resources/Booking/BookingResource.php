@@ -21,7 +21,7 @@ class BookingResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'time_slot_id' => $this->time_slot_id,
-            'participants' => $this->participants
+            'participant_count' => $this->participant_count
         ];
     }
 }

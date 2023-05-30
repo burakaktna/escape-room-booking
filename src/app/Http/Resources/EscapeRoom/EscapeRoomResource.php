@@ -21,7 +21,7 @@ class EscapeRoomResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'theme' => $this->theme,
-            'capacity' => $this->capacity
+            'capacity' => $this->maximum_participants,
         ];
     }
 }

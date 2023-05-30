@@ -13,7 +13,7 @@ class DiscountFactory extends Factory
     public function definition(): array
     {
         return [
-            'booking_id' => Booking::factory(),
+            'booking_id' => Booking::inRandomOrder()->first() ?? Booking::factory(),
             'amount' => $this->faker->randomFloat(0, 0, 100),
             'type' => $this->faker->randomElement(['birthday', 'promo_code', 'seasonal']),
         ];

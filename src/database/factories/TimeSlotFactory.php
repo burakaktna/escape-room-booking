@@ -15,7 +15,7 @@ class TimeSlotFactory extends Factory
         return [
             'start_time' => $this->faker->time('Y-m-d'),
             'end_time' => $this->faker->time('Y-m-d'),
-            'escape_room_id' => EscapeRoom::factory()
+            'escape_room_id' => EscapeRoom::inRandomOrder()->first() ?? EscapeRoom::factory(),
         ];
     }
 }

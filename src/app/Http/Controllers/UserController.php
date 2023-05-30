@@ -19,13 +19,13 @@ class UserController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-        $user = $this->userService->register($request->all());
+        $user = $this->userService->register($request->validated());
         return $user->response()->setStatusCode(201);
     }
 
     public function login(LoginRequest $request): JsonResponse
     {
-        $token = $this->userService->login($request->get('email'), $request->get('password'));
+        $token = $this->userService->login($request->validated());
         return response()->json(['token' => $token]);
     }
 }

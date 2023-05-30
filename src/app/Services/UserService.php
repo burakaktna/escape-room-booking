@@ -4,32 +4,44 @@ namespace App\Services;
 
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
-use DateTime;
+use Exception;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserService
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function register(array $data): UserResource
     {
-        $data['password'] = Hash::make($data['password']);
-        $data['date_of_birth'] = new DateTime($data['date_of_birth']);
-        return UserResource::make(User::create($data));
+        try {
+            $data['password'] = Hash::make($data['password']);
+            return UserResource::make(User::create($data));
+        } catch (Exception $e) {
+            throw new Exception("User could not be registered: " . $e->getMessage());
+        }
     }
 
-    public function login(string $email, string $password): string
+    /**
+     * @throws Exception
+     */
+    public function login(array $data): string
     {
-        $user = User::whereEmail($email)->first();
+        try {
+            $email = $data['email'];
+            $password = $data['password'];
+            $user = User::whereEmail($email)->firstOrFail();
 
-        if (!$user || !Hash::check($password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            if (!Hash::check($password, $user->password)) {
+                throw new Exception('The provided credentials are incorrect.');
+            }
+
+            return $user->createToken('user-token')->plainTextToken;
+        } catch (ModelNotFoundException $e) {
+            throw new Exception("The user with this email does not exist.");
+        } catch (Exception $e) {
+            throw new Exception("Could not log in: " . $e->getMessage());
         }
-
-        return $user->createToken('user-token')->plainTextToken;
     }
 }

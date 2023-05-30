@@ -23,7 +23,6 @@ class EscapeRoomController extends Controller
 
     public function timeSlots(EscapeRoom $escapeRoom)
     {
-        // Assuming the time slots are stored as a relationship
         $timeSlots = $escapeRoom->timeSlots;
         return TimeSlotCollection::make($timeSlots)->response();
     }

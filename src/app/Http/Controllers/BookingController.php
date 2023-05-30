@@ -14,6 +14,7 @@ class BookingController extends Controller
 {
     public function __construct(private readonly BookingService $bookingService)
     {
+        $this->authorizeResource(Booking::class, 'booking');
     }
 
     public function index(): JsonResponse
@@ -30,9 +31,8 @@ class BookingController extends Controller
 
     public function destroy(Booking $booking): JsonResponse
     {
-        if (Auth::id() !== $booking->user_id) {
-            return response()->json('Unauthorized', 403);
-        }
+        $this->authorize('delete', $booking);
+
         $booking->delete();
 
         return response()->json(null, 204);

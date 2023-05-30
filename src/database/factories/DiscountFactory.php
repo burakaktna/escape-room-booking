@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Booking;
 use App\Models\Discount;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DiscountFactory extends Factory

@@ -9,6 +9,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /** @mixin Discount */
 class DiscountResource extends JsonResource
 {
+    /**
+     * @param Request $request
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function toArray(Request $request): array
     {
         return [

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use DateTime;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -15,7 +16,7 @@ class UserService
     public function register(array $data): UserResource
     {
         $data['password'] = Hash::make($data['password']);
-        $data['date_of_birth'] = new \DateTime($data['date_of_birth']);
+        $data['date_of_birth'] = new DateTime($data['date_of_birth']);
         return UserResource::make(User::create($data));
     }
 

@@ -8,6 +8,12 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 /** @see \App\Models\Discount */
 class DiscountCollection extends ResourceCollection
 {
+    /**
+     * @param Request $request
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function toArray(Request $request): array
     {
         return [
